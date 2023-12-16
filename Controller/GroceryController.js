@@ -1,6 +1,9 @@
 
-import  Groceries from "../Modules/relationModel.js";
+import  Groceries from "../Modules/groceryModel.js";
 
+
+
+//create a new Grocery
 export const groceriescreate = async (req, res) => {
   const { StoreName, OwnerName, PhoneNumber, Location, City, Area } = req.body;
   try {
@@ -11,7 +14,6 @@ export const groceriescreate = async (req, res) => {
       Location,
       City,
       Area,
-      StoreImage: `${req.protocol}://${req.get("host")}/${req.file.path}`,
     });
     res.status(200).json(groceries);
   } catch (error) {
@@ -19,9 +21,11 @@ export const groceriescreate = async (req, res) => {
   }
 };
 
-export const groceriesget = async (req, res) => {
+
+// get all grocery 
+export const getAllGrocery = async (req, res) => {
   try {
-    const groceries = await Groceries.find();
+    const groceries = await Groceries.findAll();
 
     res.status(200).json(groceries);
   } catch (error) {
@@ -29,86 +33,55 @@ export const groceriesget = async (req, res) => {
   }
 };
 
-export const grocerygetone = async (req, res) => {
-  const { storeName } = req.params;
+
+//get grocery by ID 
+export const getGroceryById = async (req, res) => {
+  const groceryId=req.params.id;
   try {
-    const storeData = await Groceries.aggregate([
-      { $match: { StoreName: storeName } },
-      {
-        $lookup: {
-          from: "categories",
-          let: { storeId: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: { $eq: ["$storeID", "$$storeId"] },
-              },
-            },
-            {
-              $lookup: {
-                from: "products",
-                localField: "_id",
-                foreignField: "categoryID",
-                as: "products",
-              },
-            },
-            {
-              $project: {
-                _id: 1,
-                categoryName: 1,
-                products: 1,
-              },
-            },
-          ],
-          as: "categories",
-        },
-      },
-      {
-        $project: {
-          __v: 0,
-        },
-      },
-    ]);
+    const Grocery = await Groceries.findByPk(groceryId, {
+      attributes: { exclude: ['password'] }, 
+    });
 
-    // Access categories array from the result
-    // const categories = storeData[0]?.categories || [];
-
-    res.status(200).json(storeData[0]);
+    res.status(200).json(Grocery);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: { ...error } });
   }
 };
 
-export const groceriesupdate = async (req, res) => {
-  const { id } = req.params;
-  const { StoreName, OwnerName, PhoneNumber, Location, City, Area } = req.body;
-  try {
-    const groceries = await Groceries.findByIdAndUpdate(
-      id,
-      {
-        StoreName,
-        OwnerName,
-        PhoneNumber,
-        Location,
-        City,
-        Area,
-        StoreImage: `${req.protocol}://${req.get("host")}/${req.file.path}`,
-      },
-      { new: true }
-    );
-    res.status(200).json(groceries);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+ //update grocery
 
-export const groceriesdelete = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await Groceries.findByIdAndDelete(id);
-    res.status(200).json({ message: "Groceries deleted succefully" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+ export const groceryUpdate = async (req, res) => {
+   
+      
+        const GroceryId = req.params.id;
+        const updatedData = req.body; 
+        try {
+          const groceriesupdate = await Groceries.findByPk(GroceryId);
+      
+      
+          await groceriesupdate.update(updatedData);
+          const updatedGrocery = await Groceries.findByPk(GroceryId);
+      
+          res.status(200).json(updatedGrocery);
+        } catch (error) {
+          res.status(500).json({ error: { ...error } });
+        }
+      };
+ 
 
+
+      //delete grocery
+      export const deleteGrocery = async (req, res) => {
+        const groceryId=req.params.id;
+
+        try {
+          const deletegrocerie = await Groceries.findByPk(groceryId);
+
+        
+
+          await deletegrocerie.destroy();
+          res.status(204).send(); 
+        } catch (error) {
+          res.status(500).json({ error: { ...error } });
+        }
+      };

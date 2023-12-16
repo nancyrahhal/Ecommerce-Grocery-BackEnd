@@ -4,22 +4,22 @@ import sequelize from '../database-configuration/database.js'
 
 
 const Category = sequelize.define('category', {
-  CategoryID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
   },
   CategoryName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   StoreID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     allowNull: false,
   },
 }, {
   tableName: 'Category',
-  timestamps: false,
 });
 
 

@@ -4,7 +4,7 @@ import sequelize from '../database-configuration/database.js'
 
 
 const Grocery = sequelize.define('GroceriesStore', {
-  StoreID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
@@ -35,8 +35,7 @@ const Grocery = sequelize.define('GroceriesStore', {
     allowNull: false,
   },
 }, {
-  tableName: 'GroceriesStore',
-  timestamps: false,
+  tableName: 'Grocery',
 });
 
 

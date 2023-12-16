@@ -35,8 +35,8 @@ app.use(
 
 // import routes
 app.use("/api/admin",adminRoute)
-app.use("/category",categoryRoute)
-app.use("/grocery",groceryRoute)
+app.use("/api/category",categoryRoute)
+app.use("/api/grocery",groceryRoute)
 app.use("/offers",offersRoute)
 app.use("/products",productRoutes)
 

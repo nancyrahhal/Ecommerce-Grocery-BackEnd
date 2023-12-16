@@ -5,21 +5,16 @@ const router=express.Router();
 
 import {
   groceriescreate,
-  groceriesget,
-  groceriesupdate,
-  groceriesdelete,
-  grocerygetone,
+  getAllGrocery,
+  groceryUpdate ,
+  deleteGrocery,
+  getGroceryById,
 } from "../Controller/GroceryController.js" ;
-import upload from "../middlewares/image-multer.js";
 
-router.post("/", upload.single("StoreImage"), groceriescreate);
-router.get("/", groceriesget);
-router.get("/:storeName", grocerygetone);
-router.patch(
-  "/:id",
-  upload.single("StoreImage"),
-  groceriesupdate
-);
-router.delete("/:id", groceriesdelete);
+router.post("/", groceriescreate);
+router.get("/", getAllGrocery);
+router.get("/:id", getGroceryById);
+router.patch("/:id",groceryUpdate );
+router.delete("/:id", deleteGrocery);
 
 export default router;

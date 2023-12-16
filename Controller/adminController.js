@@ -51,7 +51,7 @@ export const getAdminById = async (req, res) => {
 
 
 
-export const updateAdminById = async (req, res) => {
+export const updateAdmin = async (req, res) => {
   const adminId = req.params.id;
   const updatedData = req.body; 
   try {
@@ -74,7 +74,7 @@ export const updateAdminById = async (req, res) => {
 
   
 //delete admin
-export const deleteAdminById = async (req, res) => {
+export const deleteAdmin = async (req, res) => {
   const adminId = req.params.id;
 
   try {

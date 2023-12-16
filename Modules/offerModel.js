@@ -5,11 +5,11 @@ import sequelize from '../database-configuration/database.js'
 
 const Offers = sequelize.define('offer', {
 
-  OffersID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
+    autoIncrement: true,
   },
   ProductID: {
     type: DataTypes.INTEGER,
@@ -21,7 +21,6 @@ const Offers = sequelize.define('offer', {
   },
 }, {
   tableName: 'Offers',
-  timestamps: false,
 });
 
 export default Offers;

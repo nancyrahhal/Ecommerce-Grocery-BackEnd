@@ -4,11 +4,11 @@ import sequelize from '../database-configuration/database.js'
 
 
 const Products = sequelize.define('product', {
-  ProductID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
+    autoIncrement: true,
   },
   ProductName: {
     type: DataTypes.STRING,
@@ -35,12 +35,11 @@ const Products = sequelize.define('product', {
     allowNull: false,
   },
   ItsOffer: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.TINYINT,
     allowNull: false,
   },
 }, {
   tableName: 'Products',
-  timestamps: false,
 });
 
 export default Products;

@@ -6,18 +6,13 @@ import Category from './categoryModel.js';
 import Products from './productModel.js';
 
 
-Category.hasOne(Products, { foreignKey: 'CategoryID' });
-Products.belongsTo(Category, { foreignKey: 'CategoryID' });
+Grocery.hasMany(Category, { foreignKey: 'id', as: 'categories' });
+Category.belongsTo(Grocery, { foreignKey: 'id', as: 'grocery' });
 
-Offers.belongsTo(Products, { foreignKey: 'ProductID' });
-Products.hasMany(Offers, { foreignKey: 'ProductID' });
+Products.belongsTo(Category, { foreignKey: 'CategoryID', as: 'category' });
+Products.belongsTo(Grocery, { foreignKey: 'StoreID', as: 'grocery' });
 
-Category.belongsTo(Grocery, { foreignKey: 'StoreID' });
-Grocery.hasMany(Category, { foreignKey: 'StoreID' });
-
-Products.belongsTo(Grocery, { foreignKey: 'StoreID' });
-Grocery.hasMany(Products, { foreignKey: 'StoreID' });
-
+Offers.belongsTo(Products, { foreignKey: 'ProductID', as: 'product' });
 
 
 
