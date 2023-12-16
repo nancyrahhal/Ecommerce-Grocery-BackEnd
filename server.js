@@ -4,6 +4,12 @@ import cors from 'cors';
 dotenv.config();
 import bodyParser from 'body-parser';
 import sequelize from './database-configuration/database.js';
+import adminRoute from "./routes/adminRoute.js"
+import categoryRoute from "./routes/categoriesRoutes.js";
+import groceryRoute from "./routes/groceryRoutes.js";
+import offersRoute from "./routes/offersRoutes.js";
+import productRoutes from "./routes/productRoutes.js"
+
 
 
 
@@ -25,6 +31,19 @@ app.use(
   app.use(express.json());
   app.use(express.urlencoded({extended:true}))
   app.use(bodyParser.json());
+
+
+// import routes
+app.use("/admin",adminRoute)
+app.use("/category",categoryRoute)
+app.use("/grocery",groceryRoute)
+app.use("/offers",offersRoute)
+app.use("/products",productRoutes)
+
+
+
+sequelize.sync()   
+
 
 
   try {
