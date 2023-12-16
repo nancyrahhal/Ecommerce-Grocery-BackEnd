@@ -11,7 +11,7 @@ const Admin = sequelize.define('admin', {
   },
   username: {
     type: DataTypes.STRING(255),
-    allowNull: false,
+    allowNull: true,
     unique: true,
   },
   email: {

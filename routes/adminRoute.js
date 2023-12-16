@@ -1,5 +1,5 @@
 import express from "express"
-import { admincreate, adminget, adminupdate, admindelete } from  '../Controller/Admin.js';
+import { admincreate,  getAllAdmin,getAdminById, updateAdminById, deleteAdminById } from  '../Controller/adminController.js';
 
 
 
@@ -7,9 +7,10 @@ import { admincreate, adminget, adminupdate, admindelete } from  '../Controller/
 const router=express.Router();
 
 router.post('/',admincreate)
-router.get('/',adminget)
-router.put('/:id',adminupdate)
-router.delete('/:id',admindelete)
+router.get('/', getAllAdmin)
+router.get('/:id',getAdminById)
+router.put('/:id',updateAdminById)
+router.delete('/:id',deleteAdminById)
 
 
 
