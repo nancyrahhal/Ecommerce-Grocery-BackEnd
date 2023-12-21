@@ -9,6 +9,7 @@ import categoryRoute from "./routes/categoriesRoutes.js";
 import groceryRoute from "./routes/groceryRoutes.js";
 import offersRoute from "./routes/offersRoutes.js";
 import productRoutes from "./routes/productRoutes.js"
+import userRoute from "./routes/userRoute.js"
 
 
 
@@ -39,6 +40,7 @@ app.use("/api/category",categoryRoute)
 app.use("/api/grocery",groceryRoute)
 app.use("/offers",offersRoute)
 app.use("/products",productRoutes)
+app.use("/api/user",userRoute)
 
 
 
