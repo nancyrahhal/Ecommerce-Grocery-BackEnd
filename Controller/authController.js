@@ -1,30 +1,43 @@
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import jwt from  'jsonwebtoken'
 import User from "../Modules/userModell.js";
 import Admin from "../Modules/adminModel.js";
 
 
 // user registration 
-export const registerUser = async (req, res)=>{
 
-    try{
-        const salt =bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
 
-        const newUser =new User({
-            username: req.body.username,
-            email: req.body.email,
+export const registerUser = async (req, res) => {
+    try {
+        const { username, email, password, phoneNumber } = req.body;
+        if (!username || !email || !password || !phoneNumber) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with this email already exists' });
+        }
+
+        const salt = await bcryptjs.genSalt(10);
+        const hash = await bcryptjs.hash(password, salt);
+
+        const newUser = new User({
+            username,
+            email,
             password: hash,
-            phoneNumber: req.body.phoneNumber
-        })
+            phoneNumber,
+        });
 
         await newUser.save();
-        res.status(200).send("User has been Created");
 
-    }catch(error){
-        res.status(400).json({ error: error.message });   
+        res.status(200).send('User has been created');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-}
+};
+
 
 
 
@@ -36,12 +49,13 @@ export const registerAdmin = async (req, res, next)=>{
     try{
         const {username,
                email,
-               role,
-               password}= req.body
+               password,
+               role
+               }= req.body
 
 
-        const salt =bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(password, salt);
+        const salt =bcryptjs.genSaltSync(10);
+        const hash = bcryptjs.hashSync(password, salt);
 
         const newAdmin =new Admin({
             username,
@@ -64,26 +78,48 @@ export const registerAdmin = async (req, res, next)=>{
 
 // create login function 
 
-export const login = async(req, res) =>{
-    try{
-        const admin =await Admin.findOne({username:req.body.username})
-        if(!admin) return next(createError(404, "Admin not found"))
-        const user = await User.findOne({username:req.body.username})
-        if(!user) return next(createError(404, "Admin not found"))
 
 
-        const isPasswordCorrect =await bcrypt.compare(req.body.password, admin.password);
-        if(!isPasswordCorrect) return next(createError(400, "Wrong Password or Username!"))
 
-        const token= jwt.sign({id:admin.id, isAdmin:admin.isAdmin}, process.env.JWT)
+export const login = async (req, res, next) => {
+    const { email, password } = req.body;
 
-        const {password , isAdmin, ...otherDetails}=admin.doc;
+    try {
+        const user = await User.findOne({ where: { email } });
 
-        res.cookie("access_token", token,{
-            httpOnly:true
-        }).status(200).json({...otherDetails})
-    }catch(error){
-        res.status(400).json({ error: error.message });  
+        if (user) {
+            const validPassword = await bcryptjs.compare(password, user.password);
+
+            if (validPassword) {
+                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+                const { password: hashedPassword, ...rest } = user.toJSON();
+                const expiryDate = new Date(Date.now() + 3600000);
+
+                res.cookie('access_token', token, { httpOnly: true, expires: expiryDate });
+
+                return res.status(200).json(rest);
+            }
+        }
+
+        const admin = await Admin.findOne({ where: { email } });
+
+        if (admin) {
+            const validPassword = await bcryptjs.compare(password, admin.password);
+
+            if (validPassword) {
+                const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET);
+                const { password: hashedPassword, ...rest } = admin.toJSON();
+                const expiryDate = new Date(Date.now() + 3600000);
+
+                res.cookie('access_token', token, { httpOnly: true, expires: expiryDate });
+
+                return res.status(200).json(rest);
+            }
+        }
+
+        return res.status(404).json({ error: 'User not found' });
+    } catch (error) {
+        console.error(error);
+        next(error);
     }
-
-}
+};

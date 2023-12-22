@@ -7,10 +7,7 @@ export const categorycreate = async (req, res) => {
     return res.status(400).json({ error: "Invalid storeID" });
   }
   try {
-    // const category = await Category.create({
-    //   categoryName,
-    //   storeID,
-    // });
+  
     const category = new Category({
       categoryName,
       storeID,
