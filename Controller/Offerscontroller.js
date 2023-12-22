@@ -2,71 +2,69 @@
 import  Offers from '../Modules/relationModel.js'
 
 
-export const offerscreate = async (req, res) => {
-    const { productID,description } = req.body;
+
+// Create an offer
+export const offersCreate = async (req, res) => {
+    const { productID, description } = req.body;
     try {
-      
-      const offer = await Offers.create({productID,description });
-      res.status(200).json(offer);
+        const offer = await Offers.create({ productID, description });
+        res.status(201).json(offer);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
-  };
-  
+};
 
-
-  export const offersget = async (req, res) => {
+// Get all offers
+export const offersGet = async (req, res) => {
     try {
-      const offer = await Offers.find();
-      res.status(200).json(offer);
+        const offers = await Offers.findAll();
+        res.status(200).json(offers);
     } catch (error) {
-      res.status(400).json({ error: { ...error } });
+        res.status(400).json({ error: error.message });
     }
-  };
+};
 
-
-
-  export const offersgetone = async (req, res) => {
-    const {id}=req.params;
-    try {
-      const offer = await Offers.findById({id});
-      res.status(200).json(offer);
-    } catch (error) {
-      res.status(400).json({ error: { ...error } });
-    }
-  };
-
-
-
-
-
-  export const offersupdate = async (req, res) => {
-    const { id } = req.params;
-    const {productID,description } = req.body;
-    try {
-      const offer = await Offers.findByIdAndUpdate(
-        id,
-        {productID ,description },
-        { new: true }
-      );
-      res.status(200).json(offer);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  };
-
-
-
-
-  export const offersdelete = async (req, res) => {
+// Get one offer by ID
+export const offersGetOne = async (req, res) => {
     const { id } = req.params;
     try {
-       await Offers.findByIdAndDelete(
-        id
-      );
-      res.status(200).json({message:"offers deleted succefully"});
+        const offer = await Offers.findByPk(id);
+        if (!offer) {
+            return res.status(404).json({ message: 'Offer not found' });
+        }
+        res.status(200).json(offer);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
-  };
-  
+};
+
+// Update an offer by ID
+export const offersUpdate = async (req, res) => {
+    const { id } = req.params;
+    const { productID, description } = req.body;
+    try {
+        const offer = await Offers.findByPk(id);
+        if (!offer) {
+            return res.status(404).json({ message: 'Offer not found' });
+        }
+        await offer.update({ productID, description });
+        res.status(200).json(offer);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+// Delete an offer by ID
+export const offersDelete = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const offer = await Offers.findByPk(id);
+        if (!offer) {
+            return res.status(404).json({ message: 'Offer not found' });
+        }
+        await offer.destroy();
+        res.status(200).json({ message: 'Offer deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
