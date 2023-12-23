@@ -76,9 +76,6 @@ export const getGroceryById = async (req, res) => {
 
         try {
           const deletegrocerie = await Groceries.findByPk(groceryId);
-
-        
-
           await deletegrocerie.destroy();
           res.status(204).send(); 
         } catch (error) {

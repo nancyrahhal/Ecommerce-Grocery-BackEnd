@@ -3,12 +3,15 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 dotenv.config();
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import sequelize from './database-configuration/database.js';
 import adminRoute from "./routes/adminRoute.js"
 import categoryRoute from "./routes/categoriesRoutes.js";
 import groceryRoute from "./routes/groceryRoutes.js";
 import offersRoute from "./routes/offersRoutes.js";
 import productRoutes from "./routes/productRoutes.js"
+import userRoute from "./routes/userRoute.js"
+import authRoute from "./routes/authRoute.js"
 
 
 
@@ -32,13 +35,20 @@ app.use(
   app.use(express.urlencoded({extended:true}))
   app.use(bodyParser.json());
 
+  app.use(cookieParser());
+
+ 
+ 
+ 
+  app.use("/api/auth",authRoute)
 
 // import routes
 app.use("/api/admin",adminRoute)
 app.use("/api/category",categoryRoute)
 app.use("/api/grocery",groceryRoute)
-app.use("/offers",offersRoute)
-app.use("/products",productRoutes)
+app.use("api/offers",offersRoute)
+app.use("/api/products",productRoutes)
+app.use("/api/user",userRoute)
 
 
 

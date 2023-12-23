@@ -3,17 +3,17 @@
 
 import express from 'express';
 
-import { categorycreate, categoryget, categoryupdate, categorydelete, categorygetone } from '../Controller/categoriescontroller.js';
+import { categoryCreate, categoryGet, categoryUpdate, categoryDelete, categoryGetOne } from '../Controller/categoriescontroller.js';
 
 
 const router=express.Router();
 
 
-router.post('/',categorycreate)
-router.get('/',categoryget)
-router.get('/:id',categorygetone)
-router.patch('/:id',categoryupdate)
-router.delete('/:id',categorydelete)
+router.post('/',categoryCreate)
+router.get('/',categoryGet)
+router.get('/:id',categoryGetOne)
+router.patch('/:id',categoryUpdate)
+router.delete('/:id',categoryDelete)
 
 
 

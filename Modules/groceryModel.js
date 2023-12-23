@@ -3,7 +3,7 @@ import sequelize from '../database-configuration/database.js'
 
 
 
-const Grocery = sequelize.define('GroceriesStore', {
+const Grocery = sequelize.define('groceries', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,

@@ -3,7 +3,7 @@ import sequelize from '../database-configuration/database.js'
 
 
 
-const Admin = sequelize.define('admin', {
+const User = sequelize.define('user', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -23,16 +23,16 @@ const Admin = sequelize.define('admin', {
     type: DataTypes.STRING(255),
     allowNull: false,
   },
-  role:{
-      type: DataTypes.ENUM('Admin', 'superAdmin'),
-      allowNull: false,
-      defaultValue: 'Admin',
+  phoneNumber: {
+    type: DataTypes.INTEGER,
+    allowNull:false,
+
   }
 
 });
 
 
 
-export default Admin;
+export default User;
 
 
