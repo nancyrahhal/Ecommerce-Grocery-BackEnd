@@ -1,67 +1,67 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
+// import bodyParser from 'body-parser';
+// import cookieParser from 'cookie-parser';
+import { authenticateToken } from "./Middlewares/auth.js";
+import sequelize from "./Config/database.js";
+import dotenv from "dotenv";
 dotenv.config();
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import sequelize from './database-configuration/database.js';
-import adminRoute from "./routes/adminRoute.js"
-import categoryRoute from "./routes/categoriesRoutes.js";
-import groceryRoute from "./routes/groceryRoutes.js";
-import offersRoute from "./routes/offersRoutes.js";
-import productRoutes from "./routes/productRoutes.js"
-import userRoute from "./routes/userRoute.js"
-import authRoute from "./routes/authRoute.js"
-
-
-
-
-
-const app= express();
-
-app.use('/uploads', express.static('uploads'));
-
-
-app.use(
-    cors({
-      origin: "*", // Replace with your frontend's URL
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-      credentials: true,
-    })
-  );
-
-
-  app.use(express.json());
-  app.use(express.urlencoded({extended:true}))
-  app.use(bodyParser.json());
-
-  app.use(cookieParser());
-
- 
- 
- 
-  app.use("/api/auth",authRoute)
 
 // import routes
-app.use("/api/admin",adminRoute)
-app.use("/api/category",categoryRoute)
-app.use("/api/grocery",groceryRoute)
-app.use("api/offers",offersRoute)
-app.use("/api/products",productRoutes)
-app.use("/api/user",userRoute)
+import adminRoute from "./Routes/AdminRoute.js";
+import categoryRoute from "./Routes/CategoriesRoutes.js";
+import groceryRoute from "./Routes/GroceryRoutes.js";
+import offersRoute from "./Routes/OffersRoutes.js";
+import productRoutes from "./Routes/ProductRoutes.js";
+import userRoute from "./Routes/UserRoute.js";
+import authRoute from "./Routes/AuthRoute.js";
 
+const app = express();
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+app.use("/uploads", express.static("uploads"));
+// app.use(express.static("./"));
 
-sequelize.sync()   
+// app.use(cookieParser());
+//for x-www-form-urlencoded  bodyParser || express
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 
+app.use("/api/auth", authRoute);
 
+// import routes
+app.use("/api", adminRoute);
+app.use("/api", userRoute);
+app.use("/api", groceryRoute);
+app.use("/api", categoryRoute);
+app.use("/api", productRoutes);
+app.use("/api", authenticateToken, offersRoute);
+
+//Sync force/alter
+const syncDatabase = async () => {
   try {
+    await sequelize.sync();
+    console.log("Database synchronized.");
+  } catch (error) {
+    console.log(error);
+  }
+};
+syncDatabase();
+
+try {
   app.listen(process.env.PORT, () => {
-    console.log("app is running and listening on port 5000");
+    console.log("listening on port", process.env.PORT);
   });
-}
-catch(error){
-    console.log(error)
-        process.exit();
+} catch (error) {
+  console.log(error);
+  process.exit();
 }

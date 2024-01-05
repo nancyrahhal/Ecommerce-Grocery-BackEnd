@@ -1,20 +1,30 @@
-import express from 'express';
-
-
-const router=express.Router();
+import express from "express";
+import upload from "../Middlewares/image-multer.js";
 import {
   productCreate,
   productGet,
   productGetOne,
   productUpdate,
   productDelete,
-} from "../Controller/productscontroller.js";
-import upload from "../middlewares/image-multer.js";
+  getProductsOfGrocery,
+  getProductsOfGroceryByCategory,
+} from "../Controllers/ProductsController.js";
 
-router.post("/product", upload.single("image"), productCreate);
-router.get("/product", productGet);
-router.get("/product/:id", productGetOne);
-router.patch("/product/:id", upload.single("image"), productUpdate);
-router.delete("/product/:id", productDelete);
+const router = express.Router();
 
-export default router
+router.post("/products/", upload.single("image"), productCreate);
+
+router.get("/products/", productGet);
+
+router.get("/products/:id", productGetOne);
+
+router.put("/products/:id", upload.single("image"), productUpdate);
+
+router.delete("/products/:id", productDelete);
+
+//For Grocery
+router.get("/products/ofGrocery/:id", getProductsOfGrocery);
+router.get("/products/ofGrocery/byCategory/:id", getProductsOfGroceryByCategory);
+
+
+export default router;

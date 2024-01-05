@@ -4,17 +4,21 @@ import express from 'express';
 const router=express.Router();
 
 import {
-  groceriescreate,
+  groceriesCreate,
   getAllGrocery,
-  groceryUpdate ,
+  groceryUpdate,
   deleteGrocery,
   getGroceryById,
-} from "../Controller/GroceryController.js" ;
+} from "../Controllers/GroceriesController.js";
 
-router.post("/", groceriescreate);
-router.get("/", getAllGrocery);
-router.get("/:id", getGroceryById);
-router.patch("/:id",groceryUpdate );
-router.delete("/:id", deleteGrocery);
+router.post("/groceries/", groceriesCreate);
+
+router.get("/groceries/", getAllGrocery);
+
+router.get("/groceries/:id", getGroceryById);
+
+router.put("/groceries/:id", groceryUpdate);
+
+router.delete("/groceries/:id", deleteGrocery);
 
 export default router;

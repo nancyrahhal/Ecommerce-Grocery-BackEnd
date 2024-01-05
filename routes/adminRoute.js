@@ -1,20 +1,22 @@
-import express from "express"
-import { admincreate,  getAllAdmin,getAdminById, updateAdmin, deleteAdmin } from  '../Controller/adminController.js';
+import express from "express";
+import {
+  adminCreate,
+  getAllAdmin,
+  getAdminById,
+  updateAdmin,
+  deleteAdmin,
+} from "../Controllers/AdminsController.js";
 
+const router = express.Router();
 
+router.post("/admins/", adminCreate);
 
+router.get("/admins/", getAllAdmin);
 
-const router=express.Router();
+router.get("/admins/:id", getAdminById);
 
-router.post('/',admincreate)
-router.get('/', getAllAdmin)
-router.get('/:id',getAdminById)
-router.put('/:id',updateAdmin)
-router.delete('/:id',deleteAdmin)
+router.put("/admins/:id", updateAdmin);
 
+router.delete("/admins/:id", deleteAdmin);
 
-
-
-
-
-export default router
+export default router;

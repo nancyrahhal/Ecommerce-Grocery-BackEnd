@@ -1,20 +1,22 @@
-import express from 'express';
-import  {offersCreate, offersGet,offersGetOne, offersUpdate, offersDelete}  from '../Controller/Offerscontroller.js';
+import express from "express";
+import {
+  offersCreate,
+  offersGet,
+  offersGetOne,
+  offersUpdate,
+  offersDelete,
+} from "../Controllers/OffersController.js";
 
+const router = express.Router();
 
-const router=express.Router();
+router.post("/offers/", offersCreate);
 
+router.get("/offers/", offersGet);
 
+router.get("/offers/:id", offersGetOne);
 
-router.post('/offers',offersCreate)
-router.get('/offers',offersGet)
-router.get('/offers/:id',offersGetOne)
-router.patch('/offers/:id',offersUpdate)
-router.delete('/offers/:id',offersDelete)
+router.put("/offers/:id", offersUpdate);
 
+router.delete("/offers/:id", offersDelete);
 
-
-
-
-
-export default router
+export default router;
