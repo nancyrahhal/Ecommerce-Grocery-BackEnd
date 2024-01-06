@@ -13,6 +13,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
     freezeTableName: true,
     timestamps: true,
   },
+  port: "3306",
 });
 
 const initDatabase = async () => {

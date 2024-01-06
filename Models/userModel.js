@@ -21,13 +21,15 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
     set(value) {
+      if (!value) {
+        throw new Error("password must not be empty");
+      }
       const salt = bcrypt.genSaltSync(12);
       const hash = bcrypt.hashSync(value, salt);
       this.setDataValue("password", hash);
     },
     validate: {
       notNull: { msg: "password is required" },
-      notEmpty: { msg: "password must not be empty" },
     },
   },
   phoneNumber: {

@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 // import bodyParser from 'body-parser';
 // import cookieParser from 'cookie-parser';
-import { authenticateToken } from "./Middlewares/auth.js";
+import { authenticateToken } from "./middlewares/auth.js";
 import sequelize from "./Config/database.js";
 import dotenv from "dotenv";
 dotenv.config();
