@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../Middlewares/image-multer.js";
+import upload from "../middlewares/image-multer.js";
 import {
   productCreate,
   productGet,
