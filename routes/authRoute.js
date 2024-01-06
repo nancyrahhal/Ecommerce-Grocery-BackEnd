@@ -1,5 +1,9 @@
 import express from "express"
-import { registerAdmin, registerUser ,login} from  '../Controllers/AuthController.js';
+import {
+  registerAdmin,
+  registerUser,
+  login
+} from "../Controllers/AuthController.js";
 
 
 
@@ -11,10 +15,5 @@ router.post('/admin',registerAdmin);
 router.post('/user',registerUser);
 
 router.post('/login',login);
-
-
-
-
-
 
 export default router

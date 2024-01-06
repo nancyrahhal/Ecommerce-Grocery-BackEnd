@@ -15,6 +15,7 @@ import offersRoute from "./Routes/OffersRoutes.js";
 import productRoutes from "./Routes/ProductRoutes.js";
 import userRoute from "./Routes/UserRoute.js";
 import authRoute from "./Routes/AuthRoute.js";
+import googleRoute from "./Routes/GoogleRoute.js";
 
 const app = express();
 // Middleware
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", authRoute);
+app.use("/", googleRoute);
 
 // import routes
 app.use("/api", adminRoute);
