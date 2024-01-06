@@ -8,13 +8,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // import routes
-import adminRoute from "./Routes/adminRoute.js";
-import categoryRoute from "./Routes/categoriesRoutes.js";
-import groceryRoute from "./Routes/groceryRoutes.js";
-import offersRoute from "./Routes/offersRoutes.js";
-import productRoutes from "./Routes/productRoutes.js";
-import userRoute from "./Routes/userRoute.js";
-import authRoute from "./Routes/authRoute.js";
+import adminRoute from "./Routes/AdminRoute.js";
+import categoryRoute from "./Routes/CategoriesRoutes.js";
+import groceryRoute from "./Routes/GroceryRoutes.js";
+import offersRoute from "./Routes/OffersRoutes.js";
+import productRoutes from "./Routes/ProductRoutes.js";
+import userRoute from "./Routes/UserRoute.js";
+import authRoute from "./Routes/AuthRoute.js";
+import googleRoute from "./Routes/GoogleRoute.js";
 
 const app = express();
 // Middleware
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", authRoute);
+app.use("/", googleRoute);
 
 // import routes
 app.use("/api", adminRoute);
