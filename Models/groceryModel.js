@@ -24,6 +24,14 @@ const Grocery = sequelize.define("Grocery", {
       notEmpty: { msg: "PhoneNumber must not be empty" },
     },
   },
+  storeImage:{
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: { msg: "image is required" },
+      notEmpty: { msg: "image must not be empty" },
+    },
+  },
   city: {
     type: DataTypes.STRING,
     allowNull: false,
