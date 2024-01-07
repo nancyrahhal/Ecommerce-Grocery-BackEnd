@@ -81,7 +81,7 @@ export const groceryUpdate = async (req, res) => {
     if (req?.file?.filename) {
       updatedData.storeImage = req?.file?.filename;
     }
-
+    
     if (adminId) {
       const admin = await Admin.findByPk(adminId);
       if (!admin) {

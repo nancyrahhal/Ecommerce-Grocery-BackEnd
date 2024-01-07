@@ -8,18 +8,25 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // import routes
-import adminRoute from "./Routes/AdminRoute.js";
-import categoryRoute from "./Routes/CategoriesRoutes.js";
-import groceryRoute from "./Routes/GroceryRoutes.js";
-import offersRoute from "./Routes/OffersRoutes.js";
-import productRoutes from "./Routes/ProductRoutes.js";
-import userRoute from "./Routes/UserRoute.js";
-import authRoute from "./Routes/AuthRoute.js";
+import adminRoute from "./Routes/adminRoute.js";
+import categoryRoute from "./Routes/categoriesRoutes.js";
+import groceryRoute from "./Routes/groceryRoutes.js";
+import offersRoute from "./Routes/offersRoutes.js";
+import productRoutes from "./Routes/productRoutes.js";
+import userRoute from "./Routes/userRoute.js";
+import authRoute from "./Routes/authRoute.js";
 import googleRoute from "./Routes/GoogleRoute.js";
 
 const app = express();
 // Middleware
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "*", // Replace with your frontend's URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
